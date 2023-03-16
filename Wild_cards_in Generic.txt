@@ -1,0 +1,57 @@
+A wildcard type represents an unknown type. It's detonated with a question mark as follows:
+
+public static void consumeListOfWildcardType(List<?> list)
+
+Here, we are specifying a list which could be of any type. We could pass a list of anything into this method.
+
+An upper bounded wildcard is when a wildcard type inherits from a concrete type. This is particularly useful when working with collections and inheritance.
+
+Let's try demonstrating this with a farm class which will store animals, first without the wildcard type:
+
+public class Farm {
+  private List<Animal> animals;
+
+  public void addAnimals(Collection<Animal> newAnimals) {
+    animals.addAll(newAnimals);
+  }
+}
+
+If we had multiple subclasses of animal, such as cat and dog, we might make the incorrect assumption that we can add them all to our farm:
+
+farm.addAnimals(cats); // Compilation error
+farm.addAnimals(dogs); // Compilation error
+
+This is because the compiler expects a collection of the concrete type animal, not one it subclasses.
+
+Now, let's introduce an upper bounded wildcard to our add animals method:
+
+public void addAnimals(Collection<? extends Animal> newAnimals)
+
+Now if we try again, our code will compile. This is because we are now telling the compiler to accept a collection of any subtype of animal.
+
+An unbounded wildcard is a wildcard with no upper or lower bound, that can represent any type.
+
+It's also important to know that the wildcard type is not synonymous to object. This is because a wildcard can be any type whereas an object type is specifically an object (and cannot be a subclass of an object). Let's demonstrate this with an example:
+
+List<?> wildcardList = new ArrayList<String>(); 
+List<Object> objectList = new ArrayList<String>(); // Compilation error
+
+Again, the reason the second line does not compile is that a list of objects is required, not a list of strings. The first line compiles because a list of any unknown type is acceptable.
+
+A lower bounded wildcard is when instead of providing an upper bound, we provide a lower bound by using the super keyword. In other words, a lower bounded wildcard means we are forcing the type to be a superclass of our bounded type. Let's try this with an example:
+
+public static void addDogs(List<? super Animal> list) {
+   list.add(new Dog("tom"))
+}
+
+By using super, we could call addDogs on a list of objects:
+
+ArrayList<Object> objects = new ArrayList<>();
+addDogs(objects);
+
+This makes sense, as an object is a superclass of animal. If we did not use the lower bounded wildcard, the code would not compile, as a list of objects is not a list of animals.
+
+If we think about it, we wouldn’t be able to add a dog to a list of any subclass of animal, such as cats, or even dogs. Only a superclass of animal. For example, this would not compile:
+
+ArrayList<Cat> objects = new ArrayList<>();
+addDogs(objects);
