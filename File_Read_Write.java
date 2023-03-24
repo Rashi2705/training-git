@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class File_Read_Write {
     public static void main(String[]args){
         Scanner s=new Scanner(System.in);
-System.out.println("Enter 1 for Creating the file \n Enter 2 for Writing to the file \n Enter 3 to read the file \n Enter 4 to delete the file");
+System.out.println("Enter 1 for Creating the file \n Enter 2 for Writing to the file \n Enter 3 to read the file ");
 int option=s.nextInt();
 switch(option){
     case 1:{
@@ -63,19 +63,7 @@ case 3:{
     }
     break;
 }
-case 4:{
-    System.out.println("Enter file name");
-    String finame=s.next();
-    File myfile= new File(finame);
-    if(myfile.delete()){
-        System.out.println("Deleted the file");
-    }
-    else{
-        System.out.println("Failed to delete the file");
-    }
-    break;
 
-}
  default:
  System.out.println("Enter valid choice");
 }
